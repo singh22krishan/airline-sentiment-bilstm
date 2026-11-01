@@ -1,0 +1,16 @@
+name: Source Verification
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m py_compile src/train.py
+      - run: python -m json.tool notebooks/airline_sentiment_bilstm.ipynb > /dev/null
